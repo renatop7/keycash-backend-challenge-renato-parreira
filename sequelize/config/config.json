@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "desafio-keycash",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "jest": {
+    "username": "root",
+    "password": null,
+    "database": "desafio-keycash-test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
