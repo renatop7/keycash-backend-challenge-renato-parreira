@@ -1,10 +1,10 @@
-# Desafio Keycash
+# Challenge Keycash
 
-O desafio consistia em construir uma API REST para CRUD de imóveis para venda.
+The challenge consisted in building a REST API for CRUD of real estates for sale.
 
 ---
 
-## Stack utilizado
+## Stack used
 
 - Node.js@LTS
 - npm@7.\*
@@ -15,71 +15,71 @@ O desafio consistia em construir uma API REST para CRUD de imóveis para venda.
 - Passport@0.4.*
 - Typescript@4.\*
 
-### Por que o framework NestJS?
+### Why I used the NestJS framework?
 
-O NestJS é um framework de backend feito em typescript, utiliza o Express.js por debaixo dos panos e possui suporte para diversos ORMs como o Sequelize.  
-Assim se torna uma combinação interessante para desenvolvimento da aplicação, mantendo o acesso a toda a API do Express e utlizando as vantagens de se programar em Typescript.
+NestJS is a backend framework built in Typescript, uses Express.js under the hood, and has support for various ORMs such as Sequelize.
+Thus it becomes an interesting combination for application development, maintaining access to all the Express API and using the advantages of programming in Typescript.
 
 ---
 
 ## Setup
 
-Após clonar este repositório, execute `npm install`
+After cloning this repository, run `npm install`
 
-### Database, Migrations e Seeds
+### Database, Migrations and Seeds
 
-Configure as informações de acesso ao banco de dados nos arquivos `sequelize/config/config.json` e `env.ts`
+Configure the database access information in the `sequelize/config/config.json` and `env.ts` files.
 
-Com os dados configurados, execute `npm run setup:db`
+With the configured data, run `npm run setup:db`
 
-Este comando irá criar o `schema`, executar as `migrations` e `seeders` encontradas em `./sequelize/*`, criando as tabelas e alguns dados iniciais.
+This command will create the `schema`, run the `migrations` and `seeders` found in `./sequelize/*`, creating the tables and some initial data.
 
 ### Server
 
-Para iniciar a aplicação execute `npm start`  
-Ela se iniciará no endereço `http://localhost:3000/`
+To start the application, run `npm start`  
+It will start at `http://localhost:3000/`
 
 ---
 
-## Sobre a API e técnicas utilizadas
+## About the API and techniques used
 
-## Documentação (Swagger)
+## Documentation (Swagger)
 
-A documentação da API é acessível através do endereço: `http://localhost:3000/api`  
-Foi utilizado a biblioteca `swagger-ui-express` para gerar a documentação  
-Todo o schema da documentação é feito através de `@Decorators` encontrados nos arquivos `*.controller.ts` e `*.dto.ts`
+The API documentation is accessible through the address: `http://localhost:3000/api`  
+The `swagger-ui-express` library was used to generate the documentation
+The entire schema of the documentation is done through `@Decorators` found in the `*.controller.ts` and `*.dto.ts` files
 
-## Versionamento
+## Versioning
 
-A API já possui um versionamento, assim todas as requisições precisam ter o prefixo `http://localhost:3000/api/v1`  
-Exemplo:
+The API already has versioning, so all requests must have the prefix `http://localhost:3000/api/v1`  
+Example:
 
 `GET http://localhost:3000/api/v1/properties`
 
 ## Authentication e Authorization
 
-Para fazer a autenticação das requisições na API utilizo JWT em conjunto com o AuthMiddleware `passport.js`  
-Assim nas rotas que são protegidas, é necessário ter o `AuthorizationHeader` setado com o `Bearer {token}`  
-Algumas rotas possuem uma camada extra de segurança e só são acessíveis com um token de administrador.
+To authenticate requests to the API, I use JWT in conjunction with the AuthMiddleware `passport.js`  
+Thus, in routes that are protected, it is necessary to have the `AuthorizationHeader` set with the `Bearer {token}`  
+Some routes have an extra layer of security and are only accessible with an administrator token.
 
-## Validação
+## Data validation
 
-Os dados enviados à aplicação são validados através de um `ValidationPipe`.  
-O `ValidationPipe` utiliza as instruções de validação de um determinado modelo encontradas no `*.dto.ts` da requisição sendo executada.
+The data sent to the application is validated through a `ValidationPipe`.  
+The `ValidationPipe` uses the validation instructions of a certain model found in the request's `*.dto.ts` files
 
-Exemplo, ao inserir um novo imóvel:
+For example, when inserting a new property:
 
 ```typescript
 /* ./src/properties/dto/create-property.dto.ts */
 
 export class CreatePropertyDto {
-  @IsString() // Valida se é uma string
-  @IsNotEmpty() // Valida se não está vazio
+  @IsString() // Validates if it is a string
+  @IsNotEmpty() // Validates if it is not empty
   @ApiProperty()
   title: string;
 
-  @IsString() // Valida se é uma string
-  @IsNotEmpty() // Valida se não está vazio
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty()
   description: string;
 
@@ -89,37 +89,37 @@ export class CreatePropertyDto {
 
 ## Property Data Model
 
-Modelo completo de um imóvel (Property) cadastrado na aplicação
+Complete model of a property registered in the application:
 
 ```typescript
 interface Property {
-  title: string; // Título do imóvel
+  title: string; // Property title
 
-  description: string; // Descrição
+  description: string; // Description
 
-  area: number; // Metragem
+  area: number; // Area
 
-  price: number; // Preço do omóvel
+  price: number; // Property price
 
-  rooms: number; // número de comodos
+  rooms: number; // Number of rooms
 
-  category: Category; // Categoria do imóvel
+  category: Category; // Property category
 
-  parkingSpaces: number; // Vagas de garagem
+  parkingSpaces: number; // Parking spaces
 
-  bathrooms: number; // Numero de banheiros
+  bathrooms: number; // Number of bathrooms
 
-  propertyTaxPrice: number; // IPTU
+  propertyTaxPrice: number; // Property tax price
 
-  condoPrice: number; // Preço condomínio
+  condoPrice: number; // Apartment complex tax price
 
-  owner: User; // Usuário proprietário do imóvel
+  owner: User; // Property owner user
 
-  address: Address; // Endereço do imóvel
+  address: Address; // Property address
 }
 ```
 
-Exemplo JSON de resposta:
+JSON response example:
 
 `GET http://localhost:3000/api/v1/properties/1`
 
@@ -183,30 +183,30 @@ Exemplo JSON de resposta:
 }
 ```
 
-## Filtro de imóveis
+## Property filters
 
-Os filtros para consulta de imóveis são aplicados através de `query parameters`.
+The filters for property search are applied through `query parameters`.
 
-Por exemplo:  
+For example:  
 `GET http://localhost:3000/api/v1/properties?rooms=4&area=20,40`
 
-A aplicação irá apresentar uma lista de imóveis que possua:
+The application will present a list of properties that have:
 
-- `rooms=4` 4 quartos e
-- `area=20,40` uma área entre 20m² e 40m²
+- `rooms=4` 4 rooms and
+- `area=20,40` an area between 20m² and 40m²
 
-A lista completa de parâmetros disponíveis está presente na documentação da API.
+The complete list of available parameters is present in the API documentation.
 
-O código para os filtros está presente no arquivo `./src/properties/properties.service.ts`
+The code for the filters is present in the file `./src/properties/properties.service.ts`
 
 ---
 
 ## Testing
 
-Com o intuito de simplificar a demonstração neste desafio, eu fiz o unit test apenas do `PropertiesService` utilizando a biblioteca `jest`
+In order to simplify the demonstration in this challenge, I have only done unit testing for `PropertiesService` using the `jest` library
 
-Execute o comando `npm run setup:db:test` para realizar as `migrations` e `seeders` e criar o `schema` de teste
+Run the command `npm run setup:db:test` to perform the `migrations` and `seeders` and create the test `schema`
 
-Após tudo configurado execute o comando `npm run test`
+After everything is set up, run the command `npm run test`
 
-O arquivo de teste se encontra em `src/properties/properties.service.spec.ts`
+The test file is located in `src/properties/properties.service.spec.ts`
